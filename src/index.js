@@ -63,7 +63,8 @@ const deleteToDo = (id) => {
 const toDoReducer = (state = [], action) => {
     switch (action.type){
         case ADD_TODO:
-            return [{text: action.text, id: Date.now()}, ...state]
+            const newToDoObjects = {text: action.text, id: Date.now()}
+            return [newToDoObjects, ...state]
         case DELETE_TODO:
             return state.filter(toDo => toDo.id !== action.id)
         default:
@@ -77,6 +78,11 @@ const dispatchDeleteToDo = (e) => {
     const _deleteId = parseInt(e.target.parentNode.id)
     toDoStore.dispatch(deleteToDo(_deleteId))
 }
+
+const dispatchAddToDo = (text) => {
+    toDoStore.dispatch(addToDo(text))
+}
+
 
 const paintToDos = () => {
     const toDos = toDoStore.getState()
@@ -96,9 +102,6 @@ const paintToDos = () => {
 
 toDoStore.subscribe(paintToDos)
 
-const dispatchAddToDo = (text) => {
-    toDoStore.dispatch(addToDo(text))
-}
 
 const onSubmit = (e) => {
     e.preventDefault()
